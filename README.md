@@ -1,3 +1,3 @@
 # highlight-extension
 
-ADB!!!
+Logcat highlight vs code extension.
