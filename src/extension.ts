@@ -117,7 +117,6 @@ class FilterItem extends vscode.TreeItem {
         str += 'w';
       }
       this.contextValue = str;
-      console.log(str);
 
       this.setDefaultIconPath('square_blue');
     }
@@ -493,7 +492,6 @@ export function activate(context: vscode.ExtensionContext) {
             // Write to the file
             await vscode.workspace.fs.writeFile(filePath, encodedData);
     
-            //vscode.window.showInformationMessage("Data saved successfully!");
             console.log("Filters data saved successfully");
         } catch (error) {
             vscode.window.showErrorMessage("Failed to save" + (error as Error).message);
@@ -580,9 +578,8 @@ export function activate(context: vscode.ExtensionContext) {
                 configFileUri = vscode.Uri.file(configFilePath);
 
                 if (await fileExists(configFileUri)) {
-                    console.log("config file exists");
+                    console.log("Config file exists");
                     filtersColoredSet = await readJsonFile(configFileUri);
-                    console.log(filtersColoredSet);
                     filtersProvider.updateFiltersX(filtersColoredSet);
                     updateEditor(false, true);
                 }
@@ -612,9 +609,8 @@ export function activate(context: vscode.ExtensionContext) {
                 configFileUri = vscode.Uri.file(configFilePath);
 
                 if (await fileExists(configFileUri)) {
-                    console.log("config file exists");
+                    console.log("Config file exists");
                     filtersColoredSet = await readJsonFile(configFileUri);
-                    console.log(filtersColoredSet);
                     filtersProvider.updateFiltersX(filtersColoredSet);
                     updateEditor(false, true);
                 }
@@ -644,7 +640,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     vscode.commands.registerCommand('chipFilters.toggleOff', async (item: FilterItem) => {
-            console.log(item.label);
+            
 
             getFilterByName(filtersColoredSet, item.label).checked = false;
 
@@ -654,7 +650,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     vscode.commands.registerCommand('chipFilters.toggleOn', async (item: FilterItem) => {
-            console.log(item.label);
+            
 
             getFilterByName(filtersColoredSet, item.label).checked = true;
 
@@ -664,7 +660,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     vscode.commands.registerCommand('chipFilters.matchCaseOff', async (item: FilterItem) => {
-            console.log(item.label);
+            
 
             getFilterByName(filtersColoredSet, item.label).matchCase = false;
 
@@ -674,7 +670,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     vscode.commands.registerCommand('chipFilters.matchCaseOn', async (item: FilterItem) => {
-            console.log(item.label);
+            
 
             getFilterByName(filtersColoredSet, item.label).matchCase = true;
 
@@ -684,7 +680,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     vscode.commands.registerCommand('chipFilters.matchWordOff', async (item: FilterItem) => {
-        console.log(item.label);
+        
 
         getFilterByName(filtersColoredSet, item.label).matchWord = false;
 
@@ -694,7 +690,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 );
 vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterItem) => {
-        console.log(item.label);
+        
 
         getFilterByName(filtersColoredSet, item.label).matchWord = true;
 
@@ -704,7 +700,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
     }
 );
     vscode.commands.registerCommand('chipFilters.delete', async (item: FilterItem) => {
-            console.log(item.label);
+            
 
             deleteFromFilterSet(filtersColoredSet, item.label);
             
@@ -714,7 +710,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.yellow', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = yellowBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = yellowBoldBg;
@@ -729,7 +725,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.red', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = redBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = redBoldBg;
@@ -744,7 +740,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.darkred', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = darkRedBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = darkRedBoldBg;
@@ -759,7 +755,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.pink', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = pinkBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = pinkBoldBg;
@@ -774,7 +770,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.blue', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = blueBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = blueBoldBg;
@@ -789,7 +785,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.black', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = blackBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = blackBoldBg;
@@ -804,7 +800,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.orange', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = orangeBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = orangeBoldBg;
@@ -819,7 +815,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.white', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = whiteBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = whiteBoldBg;
@@ -834,7 +830,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.green', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = greenBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = greenBoldBg;
@@ -849,7 +845,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         }
     );
     vscode.commands.registerCommand('chipFilters.purple', async (item: FilterItem) => {
-            console.log(item.label);
+            
             if (hasFilterSet(filtersColoredSet, item.label)) {
                 getFilterByName(filtersColoredSet, item.label).color = purpleBg;
                 getFilterByName(filtersColoredSet, item.label).colorBold = purpleBoldBg;
@@ -912,15 +908,12 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
 
         if (originDocument === undefined) {
             if (editor && editor.document.uri.toString() === URI?.toString()) {
-                console.log('1');
                 originDocument = editor.document;
             } else if (URI) {
-                console.log('2');
                 var tmp = await vscode.workspace.fs.readFile(URI);
                 originFileContent = Buffer.from(tmp).toString('utf8');
                 originFileContentArray = originFileContent.split('\n');
             } else if (editor) {
-                console.log('3');
                 URI = editor.document.uri;
                 originDocument = editor.document;
             }
@@ -931,9 +924,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         let filterString;
         if (newFilter) {
 
-            //filterString = await vscode.window.showInputBox({ prompt: 'Enter the string to filter by' });
             filterString = await getInput();
-            console.log(filterString);
             if (!filterString) {
                 vscode.window.showErrorMessage('No filter string provided!');
                 return;
@@ -1046,7 +1037,6 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
             }
         }
 
-        console.log('exists: ' + !exists);
         if (newFilter && !exists) {
             if (filterString !== undefined) {
                 if (getFilterNameSet(filtersColoredSet).has(filterString)) {
@@ -1187,13 +1177,10 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
                     }
                 }
 
-                //console.log("value: " + value.length);
                 if (value.length >= 2) {
 
                     value = valueSort(value);
-                    //console.log('----');
                     for (let i = 1; i < value.length; i++) {
-                        //console.log('debug: ' + value[i - 1].filterColored.name);
                         if (value[i].range.start.character > value[i - 1].range.start.character) {
 
                             rangeColorMap.get(value[i - 1].filterColored.colorKey)?.pop();
@@ -1213,8 +1200,6 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
 
                         }
                     }
-                    //console.log('debug: ' + value[value.length-1].filterColored.name);
-
                 }
             }
 
@@ -1227,14 +1212,10 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
                 const sortedMap = new Map(
                     Array.from(rangeColorMap).sort((a, b) => b[1].length - a[1].length)
                 );
-                // console.log("sorted: ");
-                sortedMap.forEach((value, key) => {
-                    // console.log(`${key}: ${value.length}`);
-                });
                 
                     if (outputDocument) { 
                         // Apply decoration
-                        console.log("decoration");
+                        console.log("Applying decoration");
                         sortedMap.forEach((value, key) => {
                             let decorationType  = colorsDictionary.get(key);
                             if (decorationType) {
@@ -1302,12 +1283,10 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
 
         const editor = vscode.window.activeTextEditor;
         if (editor && teleportSetup) {
-            // console.log("setup");
             vscode.window.onDidChangeTextEditorSelection((event: vscode.TextEditorSelectionChangeEvent) => {
                 if (!outputDocument?.isClosed && !originDocument?.isClosed) {
-                    // console.log("File: ");
                     if (event.textEditor.document === outputDocument) {
-                        // console.log("Output");
+                        console.log("Output");
 
                         const selectedLine = event.selections[0].start.line;
 
@@ -1319,7 +1298,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
                         }
                         
                     } else if (event.textEditor.document === originDocument) {
-                        // console.log("Origin");
+                        console.log("Origin");
                     }
                 }
             });
