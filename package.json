@@ -1,0 +1,315 @@
+{
+  "name": "highlight-extension",
+  "displayName": "Highlight Extension",
+  "publisher": "wegielek",
+  "license": "MIT",
+  "description": "Extension for higlighting the adb logcat",
+  "version": "0.0.3",
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "activationEvents": [
+      "onView:chipFilters"
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "filters-explorer",
+          "title": "Filters explorer",
+          "icon": "resources/dark/filter.svg"
+        }
+      ]
+    },
+    "views": {
+      "filters-explorer": [
+        {
+          "id": "chipFilters",
+          "name": "Filters",
+          "icon": "resources/dark/filter.svg",
+          "contextualTitle": "Filters Explorer"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "chipFilters.filterOut",
+        "title": "FilterOut"
+      },
+      {
+        "command": "chipFilters.openFile",
+        "title": "Open a File"
+      },
+      {
+        "command": "chipFilters.newFile",
+        "title": "New file",
+        "icon": {
+          "light": "resources/light/new_file.svg",
+          "dark": "resources/dark/new_file.svg"
+        }
+      },
+      {
+        "command": "chipFilters.delete",
+        "title": "Remove",
+        "icon": {
+          "light": "resources/light/delete.svg",
+          "dark": "resources/dark/delete.svg"
+        }
+      },
+      {
+        "command": "chipFilters.toggleOff",
+        "title": "CheckOff",
+        "icon": {
+          "light": "resources/light/check_box_fill.svg",
+          "dark": "resources/dark/check_box_fill.svg"
+        }
+      },
+      {
+        "command": "chipFilters.toggleOn",
+        "title": "CheckOn",
+        "icon": {
+          "light": "resources/light/check_box.svg",
+          "dark": "resources/dark/check_box.svg"
+        }
+      },
+      {
+        "command": "chipFilters.matchCaseOff",
+        "title": "MatchCaseOff",
+        "icon": {
+          "light": "resources/light/match_case_fill.svg",
+          "dark": "resources/dark/match_case_fill.svg"
+        }
+      },
+      {
+        "command": "chipFilters.matchCaseOn",
+        "title": "MatchCaseOn",
+        "icon": {
+          "light": "resources/light/match_case.svg",
+          "dark": "resources/dark/match_case.svg"
+        }
+      },
+      {
+        "command": "chipFilters.matchWordOff",
+        "title": "MatchWordOff",
+        "icon": {
+          "light": "resources/light/match_word_fill.svg",
+          "dark": "resources/dark/match_word_fill.svg"
+        }
+      },
+      {
+        "command": "chipFilters.matchWordOn",
+        "title": "MatchWordOn",
+        "icon": {
+          "light": "resources/light/match_word.svg",
+          "dark": "resources/dark/match_word.svg"
+        }
+      },
+      {
+        "command": "chipFilters.addFilter",
+        "title": "Add filter",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "chipFilters.refresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "chipFilters.reset",
+        "title": "Reset",
+        "icon": {
+          "light": "resources/light/cancel.svg",
+          "dark": "resources/dark/cancel.svg"
+        }
+      },
+      {
+        "command": "chipFilters.yellow",
+        "title": "Gelb"
+      },
+      {
+        "command": "chipFilters.red",
+        "title": "Rot"
+      },
+      {
+        "command": "chipFilters.darkred",
+        "title": "Dunkel rot"
+      },
+      {
+        "command": "chipFilters.pink",
+        "title": "Rosa"
+      },
+      {
+        "command": "chipFilters.blue",
+        "title": "Blau"
+      },
+      {
+        "command": "chipFilters.black",
+        "title": "Schwarz"
+      },
+      {
+        "command": "chipFilters.orange",
+        "title": "Orange"
+      },
+      {
+        "command": "chipFilters.white",
+        "title": "Weiß"
+      },
+      {
+        "command": "chipFilters.green",
+        "title": "Grün"
+      },
+      {
+        "command": "chipFilters.purple",
+        "title": "Lila"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "chipFilters.addFilter",
+          "when": "view == chipFilters",
+          "group": "navigation"
+        },
+        {
+          "command": "chipFilters.refresh",
+          "when": "view == chipFilters",
+          "group": "navigation"
+        },
+        {
+          "command": "chipFilters.reset",
+          "when": "view == chipFilters",
+          "group": "navigation"
+        },
+        {
+          "command": "chipFilters.newFile",
+          "when": "view == chipFilters",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "chipFilters.delete",
+          "when": "view == chipFilters",
+          "group": "inline"
+        },
+        {
+          "command": "chipFilters.toggleOff",
+          "when": "view == chipFilters && (viewItem == Fcw || viewItem == FCW || viewItem == FCw || viewItem == FcW)",
+          "group": "inline"
+        },
+        {
+          "command": "chipFilters.toggleOn",
+          "when": "view == chipFilters && (viewItem == fcw || viewItem == fCW || viewItem == fCw || viewItem == fcW)",
+          "group": "inline"
+        },
+        {
+          "command": "chipFilters.matchCaseOff",
+          "when": "view == chipFilters && (viewItem == fCw || viewItem == FCW || viewItem == FCw || viewItem == fCW)",
+          "group": "inline"
+        },
+        {
+          "command": "chipFilters.matchCaseOn",
+          "when": "view == chipFilters && (viewItem == fcw || viewItem == FcW || viewItem == Fcw || viewItem == fcW)",
+          "group": "inline"
+        },
+        {
+          "command": "chipFilters.matchWordOff",
+          "when": "view == chipFilters && (viewItem == fcW || viewItem == FCW || viewItem == FcW || viewItem == fCW)",
+          "group": "inline"
+        },
+        {
+          "command": "chipFilters.matchWordOn",
+          "when": "view == chipFilters && (viewItem == fcw || viewItem == FCw || viewItem == Fcw || viewItem == fCw)",
+          "group": "inline"
+        },
+        {
+          "command": "chipFilters.yellow",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.red",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.darkred",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.pink",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.blue",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.black",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.orange",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.white",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.green",
+          "when": "view == chipFilters"
+        },
+        {
+          "command": "chipFilters.purple",
+          "when": "view == chipFilters"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "chipFilters",
+        "contents": "NO FILTERS",
+        "when": "file == exists"
+      },
+      {
+        "view": "chipFilters",
+        "contents": "[Add filter](command:chipFilters.filterOut)",
+        "when": "file == exists"
+      },
+      {
+        "view": "chipFilters", 
+        "contents": "[Open a file](command:chipFilters.openFile)",
+        "when": "file != exists"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.92.0",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0"
+  }
+}
