@@ -140,43 +140,43 @@
       },
       {
         "command": "chipFilters.yellow",
-        "title": "Gelb"
+        "title": "Żółty"
       },
       {
         "command": "chipFilters.red",
-        "title": "Rot"
+        "title": "Czerwony"
       },
       {
         "command": "chipFilters.darkred",
-        "title": "Dunkel rot"
+        "title": "Ciemny czerwony"
       },
       {
         "command": "chipFilters.pink",
-        "title": "Rosa"
+        "title": "Różowy"
       },
       {
         "command": "chipFilters.blue",
-        "title": "Blau"
+        "title": "Niebieski"
       },
       {
         "command": "chipFilters.black",
-        "title": "Schwarz"
+        "title": "Czarny"
       },
       {
         "command": "chipFilters.orange",
-        "title": "Orange"
+        "title": "Pomarańczowy"
       },
       {
         "command": "chipFilters.white",
-        "title": "Weiß"
+        "title": "Biały"
       },
       {
         "command": "chipFilters.green",
-        "title": "Grün"
+        "title": "Zielony"
       },
       {
         "command": "chipFilters.purple",
-        "title": "Lila"
+        "title": "Fioletowy"
       }
     ],
     "menus": {
