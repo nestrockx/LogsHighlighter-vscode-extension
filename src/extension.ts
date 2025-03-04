@@ -2,8 +2,6 @@ import * as vscode from 'vscode';
 import { join, basename } from 'path';
 import { FilterColored } from './models/FilterColored';
 
-//////////////////////////////////////////
-
 export class FiltersProvider implements vscode.TreeDataProvider<FilterItem> {
     private filterItems: Set<FilterItem> = new Set();
 
@@ -165,8 +163,6 @@ class FilterItem extends vscode.TreeItem {
 
 }
 
-//////////////////////////////////////////////
-
 export function activate(context: vscode.ExtensionContext) {
 
     //////////////Highlights////////////////
@@ -175,11 +171,9 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.executeCommand('workbench.action.closeAllEditors');
         vscode.commands.executeCommand('setContext', 'file', '');
 
-
         const edit = new vscode.WorkspaceEdit();
 
         if (outputDocument) {
-            //edit file
             edit.delete(outputDocument.uri, new vscode.Range(outputDocument.lineAt(0).range.start, outputDocument.lineAt(outputDocument.lineCount - 1).range.end));
         }
 
@@ -554,7 +548,6 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.window.registerTreeDataProvider('chipFilters', filtersProvider);
 
-    ////////////////////////////////////////////////////////////////////////////////
     vscode.commands.registerCommand('chipFilters.openFile', async () => {
             resetAll();
 
@@ -617,7 +610,7 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
     );
-    ///////////////////////////////////////////////////////////////////////////////
+
 
     vscode.commands.registerCommand('chipFilters.reset', async () => {
             resetAll();
@@ -641,71 +634,50 @@ export function activate(context: vscode.ExtensionContext) {
     );
     vscode.commands.registerCommand('chipFilters.toggleOff', async (item: FilterItem) => {
             
-
             getFilterByName(filtersColoredSet, item.label).checked = false;
-
             filtersProvider.changeFilterCheckboxIcon(item);
-
             await updateEditor(false);
         }
     );
     vscode.commands.registerCommand('chipFilters.toggleOn', async (item: FilterItem) => {
             
-
             getFilterByName(filtersColoredSet, item.label).checked = true;
-
             filtersProvider.changeFilterCheckboxIcon(item);
-
             await updateEditor(false);
         }
     );
     vscode.commands.registerCommand('chipFilters.matchCaseOff', async (item: FilterItem) => {
             
-
             getFilterByName(filtersColoredSet, item.label).matchCase = false;
-
             filtersProvider.changeMatchCaseIcon(item);
-
             await updateEditor(false);
         }
     );
     vscode.commands.registerCommand('chipFilters.matchCaseOn', async (item: FilterItem) => {
             
-
             getFilterByName(filtersColoredSet, item.label).matchCase = true;
-
             filtersProvider.changeMatchCaseIcon(item);
-
             await updateEditor(false);
         }
     );
     vscode.commands.registerCommand('chipFilters.matchWordOff', async (item: FilterItem) => {
         
-
-        getFilterByName(filtersColoredSet, item.label).matchWord = false;
-
-        filtersProvider.changeMatchWordIcon(item);
-
-        await updateEditor(false);
-    }
-);
-vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterItem) => {
-        
-
-        getFilterByName(filtersColoredSet, item.label).matchWord = true;
-
-        filtersProvider.changeMatchWordIcon(item);
-
-        await updateEditor(false);
-    }
-);
+            getFilterByName(filtersColoredSet, item.label).matchWord = false;
+            filtersProvider.changeMatchWordIcon(item);
+            await updateEditor(false);
+        }
+    );
+    vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterItem) => {
+            
+            getFilterByName(filtersColoredSet, item.label).matchWord = true;
+            filtersProvider.changeMatchWordIcon(item);
+            await updateEditor(false);
+        }
+    );
     vscode.commands.registerCommand('chipFilters.delete', async (item: FilterItem) => {
             
-
             deleteFromFilterSet(filtersColoredSet, item.label);
-            
             filtersProvider.deleteFilter(item);
-
             await updateEditor(false);
         }
     );
@@ -951,7 +923,6 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
             await saveSetToJsonFile(configFileUri, filtersColoredSet);
         }
 
-        /////////filtered lines//////////////
         const filteredLines: string[] = [];
 
         if (originDocument) {
@@ -1010,7 +981,6 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
             }
         }
 
-        /////////
 
         let exists = false;
         if (originDocument) {
@@ -1045,7 +1015,6 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
                 deleteFromFilterSet(filtersColoredSet, filterString);
             }
 
-            //filtersProvider.updateFilters(getFilterNameArray(filterStringsSet));
             vscode.window.showErrorMessage('No matching lines found');
             return;
         }
@@ -1075,7 +1044,6 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
             if (!outputDocument.isClosed) {
                 const edit = new vscode.WorkspaceEdit();
 
-                //edit file
                 edit.delete(outputDocument.uri, new vscode.Range(outputDocument.lineAt(0).range.start, outputDocument.lineAt(outputDocument.lineCount - 1).range.end));
 
                 await vscode.workspace.applyEdit(edit);
@@ -1094,8 +1062,6 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
             }
         }
 
-
-        //////////////////////////////////////////
         const rangeColorMap = new Map<string, vscode.Range[]>();
         class RangeColor {
             constructor(public readonly filterColored: FilterColored, public readonly range: vscode.Range) {
@@ -1206,7 +1172,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
             setTimeout(() =>  {
                 const editor2 = findEditorWithUri(outputDocument!!.uri);
                 if (!editor2) {
-                    vscode.window.showErrorMessage('no editor2');
+                    vscode.window.showErrorMessage('No filtered editor window found');
                     return;
                 }
                 const sortedMap = new Map(
