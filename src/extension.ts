@@ -628,7 +628,11 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     vscode.commands.registerCommand('chipFilters.refresh', async () => {
-            await updateEditor(false);
+            if (URI) {
+                await updateEditor(false);
+            } else {
+                vscode.window.showInformationMessage("Please load the file first");
+            }
             filtersProvider.refresh();
         }
     );
