@@ -885,7 +885,7 @@ vscode.commands.registerCommand('chipFilters.matchWordOn', async (item: FilterIt
         try {
             const content = Buffer.from(fileContent, 'utf8');
             await vscode.workspace.fs.writeFile(filteredFileUri, content);
-            vscode.window.showInformationMessage(`File saved as ${filteredFilePath}`);
+            console.log(`File saved as ${filteredFilePath}`);
 
             return filteredFileUri;
         } catch (error) {
