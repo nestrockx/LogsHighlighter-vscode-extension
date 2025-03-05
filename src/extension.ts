@@ -235,7 +235,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const errorBgKey = "errorBg";
     const errorBg = vscode.window.createTextEditorDecorationType({
-        backgroundColor: ' #f56767',
+        backgroundColor: 'rgb(224, 95, 95)',
         color: ' #1f1f1f',
         textDecoration: 'solid #1f1f1f',
         fontWeight: 'bold'
@@ -243,7 +243,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const infoBgKey = "infoBg";
     const infoBg = vscode.window.createTextEditorDecorationType({
-        backgroundColor: ' #96df52', 
+        backgroundColor: 'rgb(172, 234, 114)', 
         color: ' #1f1f1f',
         textDecoration: 'solid #1f1f1f',
         fontWeight: 'bold'
@@ -251,7 +251,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const debugBgKey = "debugBg";
     const debugBg = vscode.window.createTextEditorDecorationType({
-        backgroundColor: ' #8d8bff',
+        backgroundColor: 'rgb(121, 120, 209)',
         color: ' #1f1f1f',
         textDecoration: 'solid #1f1f1f',
         fontWeight: 'bold'
@@ -259,7 +259,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const warningBgKey = "warningBg";
     const warningBg = vscode.window.createTextEditorDecorationType({
-        backgroundColor: ' #da8e37',
+        backgroundColor: 'rgb(202, 146, 83)',
         color: ' #1f1f1f',
         textDecoration: ' solid #1f1f1f',
         fontWeight: 'bold'
