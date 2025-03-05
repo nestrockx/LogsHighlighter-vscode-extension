@@ -148,16 +148,16 @@ class FilterItem extends vscode.TreeItem {
 
     setIconPath(name: string, filtersProvider: FiltersProvider) {
         this.iconPath = {
-            light: join(__filename, '..', '..', 'resources', 'light', name + '.svg'),
-            dark: join(__filename, '..', '..', 'resources', 'dark', name + '.svg')
+            light: vscode.Uri.file(join(__filename, '..', '..', 'resources', 'light', name + '.svg')),
+            dark: vscode.Uri.file(join(__filename, '..', '..', 'resources', 'dark', name + '.svg'))
         };
         filtersProvider.refresh();
     }
 
     setDefaultIconPath(name: string) {
         this.iconPath = {
-            light: join(__filename, '..', '..', 'resources', 'light', name + '.svg'),
-            dark: join(__filename, '..', '..', 'resources', 'dark', name + '.svg')
+            light: vscode.Uri.file(join(__filename, '..', '..', 'resources', 'light', name + '.svg')),
+            dark: vscode.Uri.file(join(__filename, '..', '..', 'resources', 'dark', name + '.svg'))
         };
     }
 
