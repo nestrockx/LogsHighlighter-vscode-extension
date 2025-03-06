@@ -1056,7 +1056,7 @@ export function activate(context: vscode.ExtensionContext) {
             } else {
                 await vscode.commands.executeCommand('workbench.action.editorLayoutTwoRows');
 
-                outputDocument = await vscode.workspace.openTextDocument({ content: output.join('\n') });
+                outputDocument = await vscode.workspace.openTextDocument(await saveFilterFileSilently(output.join('\n')) as vscode.Uri);
 
                 await vscode.window.showTextDocument(outputDocument, {viewColumn: vscode.ViewColumn.Beside, preview: true});
 
