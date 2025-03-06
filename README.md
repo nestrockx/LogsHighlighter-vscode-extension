@@ -1,3 +1,3 @@
-# highlight-extension
+# Logs highlighter
 
-Logcat highlight vs code extension.
+Tool for analysis, filtering and custom highlighting of android logcat logs.

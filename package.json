@@ -1,14 +1,15 @@
 {
   "name": "highlight-extension",
-  "displayName": "Highlight Extension",
+  "displayName": "Logs highlighter",
   "publisher": "wegielek",
   "license": "MIT",
+  "icon": "images/logo.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/nestrockx/highlight-extension.git"
   },
-  "description": "Extension for higlighting the adb logcat",
-  "version": "1.0.0",
+  "description": "Extension for higlighting the debugging logs",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.92.0"
   },
