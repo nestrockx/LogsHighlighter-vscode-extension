@@ -171,14 +171,6 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.executeCommand('workbench.action.closeAllEditors');
         vscode.commands.executeCommand('setContext', 'file', '');
 
-        const edit = new vscode.WorkspaceEdit();
-
-        if (outputDocument) {
-            edit.delete(outputDocument.uri, new vscode.Range(outputDocument.lineAt(0).range.start, outputDocument.lineAt(outputDocument.lineCount - 1).range.end));
-        }
-
-        await vscode.workspace.applyEdit(edit);
-
         output = [];
         originDocument = undefined;
         outputDocument = undefined;
@@ -1044,6 +1036,10 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
             await vscode.commands.executeCommand('workbench.action.moveEditorToBelowGroup');
+
+            vscode.workspace.onDidCloseTextDocument((document) => {
+                console.log(`Document closed: ${document.uri.toString()}`);
+            });
         } else {
             if (!outputDocument.isClosed) {
                 const edit = new vscode.WorkspaceEdit();
@@ -1055,6 +1051,8 @@ export function activate(context: vscode.ExtensionContext) {
                 edit.insert(outputDocument.uri, outputDocument.lineAt(0).range.start, output.join('\n'));
 
                 await vscode.workspace.applyEdit(edit);
+
+                outputDocument.save();
             } else {
                 await vscode.commands.executeCommand('workbench.action.editorLayoutTwoRows');
 
@@ -1063,6 +1061,8 @@ export function activate(context: vscode.ExtensionContext) {
                 await vscode.window.showTextDocument(outputDocument, {viewColumn: vscode.ViewColumn.Beside, preview: true});
 
                 await vscode.commands.executeCommand('workbench.action.moveEditorToBelowGroup');
+
+                outputDocument.save();
             }
         }
 
