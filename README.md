@@ -24,12 +24,16 @@ Refresh button in the navigation bar refreshes the filters.
 
 ![filters](images/CursorChanged.png)
 
+Change color of the highlight by right-click on the filter and choosing the color from the list.
+
+![filter color change](images/ColorChange.png)
+
 Toggling checkbox hides/shows the filter highlights.
 
 You can also toggle match case and match word.
 
 You can remove filter by clicking X button.
 
-![alt text](images/TreeViewHighlighted.png)
+![filters tree view](images/TreeViewHighlighted.png)
 
 Enjoy !!!
