@@ -257,6 +257,14 @@ export function activate(context: vscode.ExtensionContext) {
         fontWeight: 'bold'
     });
 
+    const verboseBgKey = "verboseBg";
+    const verboseBg = vscode.window.createTextEditorDecorationType({
+        backgroundColor: 'rgb(182, 109, 216)',
+        color: ' #1f1f1f',
+        textDecoration: ' solid #1f1f1f',
+        fontWeight: 'bold'
+    });
+
 
     const pinkBg = vscode.window.createTextEditorDecorationType({
         backgroundColor: ' #ff8ee3',
@@ -526,6 +534,7 @@ export function activate(context: vscode.ExtensionContext) {
     colorsDictionary.set("infoBg", infoBg);
     colorsDictionary.set("debugBg", debugBg);
     colorsDictionary.set("warningBg", warningBg);
+    colorsDictionary.set("verboseBg", verboseBg);
 
     var output: string[] = [];
     var filtersColoredSet: Set<FilterColored> = new Set<FilterColored>();
@@ -1141,6 +1150,13 @@ export function activate(context: vscode.ExtensionContext) {
                                 rangeColorMap.set(warningBgKey, [new vscode.Range(i, outputDocument.lineAt(i).text.indexOf(' W '), i, outputDocument.lineAt(i).text.indexOf(' W ') + 3)]);
                             } else {
                                 rangeColorMap.get(warningBgKey)?.push(new vscode.Range(i, outputDocument.lineAt(i).text.indexOf(' W '), i, outputDocument.lineAt(i).text.indexOf(' W ') + 3));
+                            }
+                        }
+                        if (outputDocument.lineAt(i).text.includes(' V ')) {
+                            if (!rangeColorMap.has(verboseBgKey)) {
+                                rangeColorMap.set(verboseBgKey, [new vscode.Range(i, outputDocument.lineAt(i).text.indexOf(' V '), i, outputDocument.lineAt(i).text.indexOf(' V ') + 3)]);
+                            } else {
+                                rangeColorMap.get(verboseBgKey)?.push(new vscode.Range(i, outputDocument.lineAt(i).text.indexOf(' V '), i, outputDocument.lineAt(i).text.indexOf(' V ') + 3));
                             }
                         }
                         
