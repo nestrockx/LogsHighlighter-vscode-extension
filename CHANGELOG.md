@@ -15,3 +15,9 @@
 ### Changed
 
 - Update README
+
+## [v1.0.2]
+
+### Fixed
+
+- Filtered lines order bug
