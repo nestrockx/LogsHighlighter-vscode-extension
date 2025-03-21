@@ -951,7 +951,7 @@ export function activate(context: vscode.ExtensionContext) {
                         }
                         
                         if (regex.test(line)) {
-                            filteredLines.push(originDocument.lineAt(i).text);
+                            filteredLines.push(i + " " + originDocument.lineAt(i).text);
                             break; // Stop checking other filter strings if a match is found
                         }
                     }
@@ -977,7 +977,7 @@ export function activate(context: vscode.ExtensionContext) {
                         }
                         
                         if (regex.test(line)) {
-                            filteredLines.push(originFileContentArray[i]);
+                            filteredLines.push(i + " " + originFileContentArray[i]);
                             break; // Stop checking other filter strings if a match is found
                         }
 
@@ -1031,6 +1031,9 @@ export function activate(context: vscode.ExtensionContext) {
         output = output.concat(filteredLines);
         output = Array.from(new Set(output));
         output = output.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+        //TODO remove indentifier line number
+        output = output.map(str => str.replace(/^\d+\s/, ''));
+
 
         if (outputDocument === undefined) {
             await vscode.commands.executeCommand('workbench.action.editorLayoutTwoRows');
