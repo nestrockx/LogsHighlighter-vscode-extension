@@ -1031,7 +1031,6 @@ export function activate(context: vscode.ExtensionContext) {
         output = output.concat(filteredLines);
         output = Array.from(new Set(output));
         output = output.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
-        //TODO remove indentifier line number
         output = output.map(str => str.replace(/^\d+\s/, ''));
 
 
