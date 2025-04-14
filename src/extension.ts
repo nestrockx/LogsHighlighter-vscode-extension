@@ -733,8 +733,32 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     let exists = false;
-    if (filteredLines.length > 0) {
-      exists = true;
+    if (newFilter) {
+      if (originDocument) {
+        for (let i = 0; i < originDocument.lineCount; i++) {
+          let line = originDocument.lineAt(i).text;
+          let includer = filterString;
+          if (includer !== undefined) {
+            const regex = new RegExp(includer, "i");
+            if (regex.test(line)) {
+              exists = true;
+              break; // Stop checking other filter strings if a match is found
+            }
+          }
+        }
+      } else if (originFileContent) {
+        for (let i = 0; i < originFileContentArray.length; i++) {
+          let line = originFileContentArray[i];
+          let includer = filterString;
+          if (includer !== undefined) {
+            const regex = new RegExp(includer, "i");
+            if (regex.test(line)) {
+              exists = true;
+              break; // Stop checking other filter strings if a match is found
+            }
+          }
+        }
+      }
     }
 
     if (newFilter && !nonRegexExists && exists) {
