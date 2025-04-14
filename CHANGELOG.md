@@ -27,3 +27,9 @@
 ### Added
 
 - Regular expression filtering and highlighting
+
+## [v1.0.4]
+
+### Fixed
+
+- Empty filter bug
