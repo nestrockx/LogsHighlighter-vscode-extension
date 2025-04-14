@@ -9,7 +9,7 @@
     "url": "https://github.com/nestrockx/highlight-extension.git"
   },
   "description": "Extension for higlighting the debugging logs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "vscode": "^1.92.0"
   },

@@ -21,3 +21,9 @@
 ### Fixed
 
 - Filtered lines order bug
+
+## [v1.0.3]
+
+### Added
+
+- Regular expression filtering and highlighting
