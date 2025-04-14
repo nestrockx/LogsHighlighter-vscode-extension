@@ -4,7 +4,7 @@ import { FilterColored } from "./models/FilterColored";
 import { FiltersProvider } from "./providers/FiltersProvider";
 import { HighlightColors } from "./HighlightColors";
 import { FilterItem } from "./provider_items/FilterItem";
-import { FilterSetManager } from "./FilterSetUtil";
+import { FilterSetManager } from "./FilterSetManager";
 
 export function activate(context: vscode.ExtensionContext) {
   /// async functions
@@ -540,6 +540,70 @@ export function activate(context: vscode.ExtensionContext) {
     return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
+  function logSymbol(
+    symbol: string,
+    bgKey: string,
+    rangeColorMap: Map<string, vscode.Range[]>,
+    i: number,
+    outputDocument: vscode.TextDocument
+  ) {
+    if (!rangeColorMap.has(bgKey)) {
+      rangeColorMap.set(bgKey, [
+        new vscode.Range(
+          i,
+          outputDocument.lineAt(i).text.indexOf(symbol),
+          i,
+          outputDocument.lineAt(i).text.indexOf(symbol) + 3
+        ),
+      ]);
+    } else {
+      rangeColorMap
+        .get(bgKey)
+        ?.push(
+          new vscode.Range(
+            i,
+            outputDocument.lineAt(i).text.indexOf(symbol),
+            i,
+            outputDocument.lineAt(i).text.indexOf(symbol) + 3
+          )
+        );
+    }
+  }
+
+  function regexSetup(filterString: FilterColored, includer: string) {
+    let regex;
+    if (!filterString.matchWord && filterString.matchCase) {
+      regex = new RegExp(includer);
+    } else if (!filterString.matchWord && !filterString.matchCase) {
+      regex = new RegExp(includer, "i");
+    } else if (filterString.matchWord && !filterString.matchCase) {
+      regex = new RegExp("\\b" + includer + "\\b", "i");
+    } else {
+      regex = new RegExp("\\b" + includer + "\\b");
+    }
+    return regex;
+  }
+
+  type MatchResult = {
+    match: string;
+    start: number;
+    end: number;
+  } | null;
+
+  function findFirstMatchWithIndices(line: string, regex: RegExp): MatchResult {
+    const match = regex.exec(line);
+
+    if (match) {
+      return {
+        match: match[0],
+        start: match.index,
+        end: match.index + match[0].length,
+      };
+    }
+
+    return null;
+  }
+
   ////////////////Generate filter file and highlights///////////////////////
   async function updateEditor(
     newFilter: boolean,
@@ -612,16 +676,7 @@ export function activate(context: vscode.ExtensionContext) {
             if (!newFilter && !filterString.matchRegex) {
               includer = escapeRegex(includer);
             }
-            let regex;
-            if (!filterString.matchWord && filterString.matchCase) {
-              regex = new RegExp(includer);
-            } else if (!filterString.matchWord && !filterString.matchCase) {
-              regex = new RegExp(includer, "i");
-            } else if (filterString.matchWord && !filterString.matchCase) {
-              regex = new RegExp("\\b" + includer + "\\b", "i");
-            } else {
-              regex = new RegExp("\\b" + includer + "\\b");
-            }
+            const regex = regexSetup(filterString, includer);
 
             if (regex.test(line)) {
               filteredLines.push(i + " " + originDocument.lineAt(i).text);
@@ -641,16 +696,7 @@ export function activate(context: vscode.ExtensionContext) {
             if (!newFilter && !filterString.matchRegex) {
               includer = escapeRegex(includer);
             }
-            let regex;
-            if (!filterString.matchWord && filterString.matchCase) {
-              regex = new RegExp(includer);
-            } else if (!filterString.matchWord && !filterString.matchCase) {
-              regex = new RegExp(includer, "i");
-            } else if (filterString.matchWord && !filterString.matchCase) {
-              regex = new RegExp("\\b" + includer + "\\b", "i");
-            } else {
-              regex = new RegExp("\\b" + includer + "\\b");
-            }
+            const regex = regexSetup(filterString, includer);
 
             if (regex.test(line)) {
               filteredLines.push(i + " " + originFileContentArray[i]);
@@ -816,33 +862,31 @@ export function activate(context: vscode.ExtensionContext) {
 
         let inlinecolors: RangeColor[] = [];
         for (const filterString of checkedArray) {
-          let includer;
-          if (filterString.matchCase) {
-            line = outputDocument.lineAt(i).text;
-            includer = filterString.name;
-          } else {
-            line = outputDocument.lineAt(i).text.toLowerCase();
-            includer = filterString.name.toLowerCase();
+          let includer = filterString.name;
+          if (!filterString.matchRegex) {
+            includer = escapeRegex(includer);
           }
+          const regex = regexSetup(filterString, includer);
 
-          if (line.includes(includer)) {
-            const startIndex = line.indexOf(includer);
-            const endIndex = startIndex + filterString.name.length;
+          if (regex.test(line)) {
+            let matchIndices = findFirstMatchWithIndices(line, regex);
+            const startIndex = matchIndices!!.start;
+            const endIndex = matchIndices!!.end;
 
-            const range0 = new vscode.Range(i, startIndex, i, endIndex);
-            const range1 = new vscode.Range(
+            const rangeBold = new vscode.Range(i, startIndex, i, endIndex);
+            const rangeThin = new vscode.Range(
               i,
               endIndex,
               i,
-              liner.range.end.character
+              liner.range.end.character //end of the line
             );
 
             if (!rangeColorMap.has(filterString.colorKey)) {
-              rangeColorMap.set(filterString.colorBoldKey, [range0]);
-              rangeColorMap.set(filterString.colorKey, [range1]);
+              rangeColorMap.set(filterString.colorBoldKey, [rangeBold]);
+              rangeColorMap.set(filterString.colorKey, [rangeThin]);
             } else {
-              rangeColorMap.get(filterString.colorBoldKey)?.push(range0);
-              rangeColorMap.get(filterString.colorKey)?.push(range1);
+              rangeColorMap.get(filterString.colorBoldKey)?.push(rangeBold);
+              rangeColorMap.get(filterString.colorKey)?.push(rangeThin);
             }
 
             const startPos = new vscode.Position(i, startIndex);
@@ -851,119 +895,49 @@ export function activate(context: vscode.ExtensionContext) {
             inlinecolors.push(new RangeColor(filterString, xrange));
 
             if (outputDocument.lineAt(i).text.includes(" E ")) {
-              if (!rangeColorMap.has(HighlightColors.errorBgKey)) {
-                rangeColorMap.set(HighlightColors.errorBgKey, [
-                  new vscode.Range(
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" E "),
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" E ") + 3
-                  ),
-                ]);
-              } else {
-                rangeColorMap
-                  .get(HighlightColors.errorBgKey)
-                  ?.push(
-                    new vscode.Range(
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" E "),
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" E ") + 3
-                    )
-                  );
-              }
+              logSymbol(
+                " E ",
+                HighlightColors.errorBgKey,
+                rangeColorMap,
+                i,
+                outputDocument
+              );
             }
             if (outputDocument.lineAt(i).text.includes(" I ")) {
-              if (!rangeColorMap.has(HighlightColors.infoBgKey)) {
-                rangeColorMap.set(HighlightColors.infoBgKey, [
-                  new vscode.Range(
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" I "),
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" I ") + 3
-                  ),
-                ]);
-              } else {
-                rangeColorMap
-                  .get(HighlightColors.infoBgKey)
-                  ?.push(
-                    new vscode.Range(
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" I "),
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" I ") + 3
-                    )
-                  );
-              }
+              logSymbol(
+                " I ",
+                HighlightColors.infoBgKey,
+                rangeColorMap,
+                i,
+                outputDocument
+              );
             }
             if (outputDocument.lineAt(i).text.includes(" D ")) {
-              if (!rangeColorMap.has(HighlightColors.debugBgKey)) {
-                rangeColorMap.set(HighlightColors.debugBgKey, [
-                  new vscode.Range(
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" D "),
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" D ") + 3
-                  ),
-                ]);
-              } else {
-                rangeColorMap
-                  .get(HighlightColors.debugBgKey)
-                  ?.push(
-                    new vscode.Range(
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" D "),
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" D ") + 3
-                    )
-                  );
-              }
+              logSymbol(
+                " D ",
+                HighlightColors.debugBgKey,
+                rangeColorMap,
+                i,
+                outputDocument
+              );
             }
             if (outputDocument.lineAt(i).text.includes(" W ")) {
-              if (!rangeColorMap.has(HighlightColors.warningBgKey)) {
-                rangeColorMap.set(HighlightColors.warningBgKey, [
-                  new vscode.Range(
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" W "),
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" W ") + 3
-                  ),
-                ]);
-              } else {
-                rangeColorMap
-                  .get(HighlightColors.warningBgKey)
-                  ?.push(
-                    new vscode.Range(
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" W "),
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" W ") + 3
-                    )
-                  );
-              }
+              logSymbol(
+                " W ",
+                HighlightColors.warningBgKey,
+                rangeColorMap,
+                i,
+                outputDocument
+              );
             }
             if (outputDocument.lineAt(i).text.includes(" V ")) {
-              if (!rangeColorMap.has(HighlightColors.verboseBgKey)) {
-                rangeColorMap.set(HighlightColors.verboseBgKey, [
-                  new vscode.Range(
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" V "),
-                    i,
-                    outputDocument.lineAt(i).text.indexOf(" V ") + 3
-                  ),
-                ]);
-              } else {
-                rangeColorMap
-                  .get(HighlightColors.verboseBgKey)
-                  ?.push(
-                    new vscode.Range(
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" V "),
-                      i,
-                      outputDocument.lineAt(i).text.indexOf(" V ") + 3
-                    )
-                  );
-              }
+              logSymbol(
+                " V ",
+                HighlightColors.verboseBgKey,
+                rangeColorMap,
+                i,
+                outputDocument
+              );
             }
           }
         }
@@ -983,11 +957,10 @@ export function activate(context: vscode.ExtensionContext) {
                 ?.pop();
 
               const lineNumber = inlinecolors[i - 1].range.start.line;
-              const startIndex = line
-                .toLowerCase()
-                .indexOf(inlinecolors[i - 1].filterColored.name.toLowerCase());
+              const startIndex = inlinecolors[i - 1].range.start.character;
               const endIndex = inlinecolors[i].range.start.character;
 
+              console.log("inlinecolors: " + startIndex);
               rangeColorMap
                 .get(inlinecolors[i - 1].filterColored.colorBoldKey)
                 ?.push(

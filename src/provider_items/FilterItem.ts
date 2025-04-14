@@ -81,8 +81,8 @@ export class FilterItem extends vscode.TreeItem {
   }
 
   toggleRegex(): void {
-    this.isWord = !this.isWord;
-    if (this.isWord) {
+    this.isRegex = !this.isRegex;
+    if (this.isRegex) {
       this.contextValue = this.contextValue?.replace("r", "R");
     } else {
       this.contextValue = this.contextValue?.replace("R", "r");

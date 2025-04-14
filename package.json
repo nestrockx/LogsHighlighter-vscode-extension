@@ -118,16 +118,16 @@
         "command": "chipFilters.matchRegexOff",
         "title": "MatchRegexOff",
         "icon": {
-          "light": "resources/light/regex.svg",
-          "dark": "resources/dark/regex.svg"
+          "light": "resources/light/regexp_bold.svg",
+          "dark": "resources/dark/regexp_bold.svg"
         }
       },
       {
         "command": "chipFilters.matchRegexOn",
         "title": "MatchRegexOn",
         "icon": {
-          "light": "resources/light/regex_thin.svg",
-          "dark": "resources/dark/regex_thin.svg"
+          "light": "resources/light/regexp_thin.svg",
+          "dark": "resources/dark/regexp_thin.svg"
         }
       },
       {
@@ -226,42 +226,42 @@
         },
         {
           "command": "chipFilters.toggleOff",
-          "when": "view == chipFilters && (viewItem =~ /^F[cC][wW][rR]$/)",
+          "when": "view == chipFilters && (viewItem =~ /^F...$/)",
           "group": "inline"
         },
         {
           "command": "chipFilters.toggleOn",
-          "when": "view == chipFilters && (viewItem =~ /^f[cC][wW][rR]$/)",
+          "when": "view == chipFilters && (viewItem =~ /^f...$/)",
           "group": "inline"
         },
         {
           "command": "chipFilters.matchCaseOff",
-          "when": "view == chipFilters && (viewItem =~ /^[fF]C[wW][rR]$/)",
+          "when": "view == chipFilters && (viewItem =~ /^.C..$/)",
           "group": "inline"
         },
         {
           "command": "chipFilters.matchCaseOn",
-          "when": "view == chipFilters && (viewItem =~ /^[fF]c[wW][rR]$/)",
+          "when": "view == chipFilters && (viewItem =~ /^.c..$/)",
           "group": "inline"
         },
         {
           "command": "chipFilters.matchWordOff",
-          "when": "view == chipFilters && (viewItem =~ /^[fF][cC]W[rR]$/)",
+          "when": "view == chipFilters && (viewItem =~ /^..W.$/)",
           "group": "inline"
         },
         {
           "command": "chipFilters.matchWordOn",
-          "when": "view == chipFilters && (viewItem =~ /^[fF][cC]w[rR]$/)",
+          "when": "view == chipFilters && (viewItem =~ /^..w.$/)",
           "group": "inline"
         },
         {
           "command": "chipFilters.matchRegexOff",
-          "when": "view == chipFilters && (viewItem =~ /^[fF][cC][wW]R$/)",
+          "when": "view == chipFilters && (viewItem =~ /^...R$/)",
           "group": "inline"
         },
         {
           "command": "chipFilters.matchRegexOn",
-          "when": "view == chipFilters && (viewItem =~ /^[fF][cC][wW]r$/)",
+          "when": "view == chipFilters && (viewItem =~ /^...r$/)",
           "group": "inline"
         },
         {

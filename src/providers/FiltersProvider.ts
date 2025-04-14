@@ -38,6 +38,7 @@ export class FiltersProvider implements vscode.TreeDataProvider<FilterItem> {
         [],
         filterColored.matchCase,
         filterColored.matchWord,
+        filterColored.matchRegex,
         filterColored.checked
       );
       filterItem.setIconPath(filterColored.icon, this);
